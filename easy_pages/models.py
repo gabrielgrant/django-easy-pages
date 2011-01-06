@@ -56,7 +56,7 @@ class Page(MPTTModel):
 		unique_together = ('slug', 'parent')
 
 	def get_absolute_url(self):
-		u = '/'+'/'.join(i.slug for i in self.get_ancestors())
+		u = '/'+'/'.join([i.slug for i in self.get_ancestors()] + [self.slug])
 		if not u.endswith('/') and settings.APPEND_SLASH:
 			return '%s/' % u
 		else:
