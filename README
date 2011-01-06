@@ -9,6 +9,9 @@ When rendering a response that isn't registered as a page itself, a dummy page o
 Caching greatly enhances performance. 
 
 
+##Installation
+
+assumes that settings.PROJECT_ROOT contains the absolute path to the project root.
 
 
 ##Page Types

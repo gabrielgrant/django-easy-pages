@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.conf import settings
 from django.utils.safestring import mark_safe
@@ -32,7 +33,8 @@ class Page(MPTTModel):
 	published = models.BooleanField(default=True)
 	show_in_menu = models.BooleanField(default=True)
 	page_type = models.CharField(max_length=4, choices=PAGE_CHOICES, default='norm')
-	template = models.FilePathField(path='./templates/easy_pages', match='.*\.html$', blank=True, default='')
+	template_dir = os.path.join(settings.PROJECT_ROOT, 'templates/easy_pages')
+	template = models.FilePathField(path=template_dir, match='.*\.html$', blank=True, default='')
 	# the following attributes are for sitemap integration:
 	
 	CHANGEFREQ_CHOICES = (
