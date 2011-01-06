@@ -14,6 +14,7 @@ setup(
         'django-ckeditor-filemodel-manager',
         'django-html-field',
         'django-static-filtered-images',
+        'django-python-identifier-field',
     ],
     dependency_links = [
     	'http://github.com/gabrielgrant/django-inline-edit/tarball/master#egg=django-inline-edit',
@@ -21,6 +22,7 @@ setup(
     	'http://github.com/gabrielgrant/django-ckeditor-filemodel-manager/tarball/master#egg=django-ckeditor-filemodel-manager',
         'http://github.com/gabrielgrant/django-html-field/tarball/master#egg=django-html-field',
         'http://github.com/gabrielgrant/django-static-filtered-images/tarball/master#egg=django-static-filtered-images',
+        'http://github.com/gabrielgrant/django-python-identifier-field/tarball/master#egg=django-python-identifier-field',
     ]
 )
 
