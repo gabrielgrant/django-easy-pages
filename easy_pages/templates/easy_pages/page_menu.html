@@ -1,0 +1,17 @@
+{% load mptt_tags %}
+{% with page.get_ancestors as ancestors %}
+{% recursetree page.get_root.get_children %}
+    {% if node in ancestors or node == page %}
+    <li class="active">
+    <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
+        {% if not node.is_leaf_node %}
+            <ul class="children">
+                {{ children }}
+            </ul>
+        {% endif %}
+    </li>
+    {% else %}
+    <li><a href="{{ node.get_absolute_url }}">{{ node.title }}</a></li>
+    {% endif %}
+{% endrecursetree %}
+{% endwith %}
