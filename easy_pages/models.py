@@ -50,7 +50,7 @@ class Page(MPTTModel):
 	lastmod = models.DateTimeField(auto_now=True)
 	
 	def __unicode__(self):
-		return u"%s -- %s" % (self.path, self.title)
+		return u"%s -- %s" % (self.get_absolute_url(), self.title)
 	
 	class Meta:
 		unique_together = ('slug', 'parent')
