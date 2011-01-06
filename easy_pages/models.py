@@ -28,8 +28,8 @@ class Page(MPTTModel):
 	
 	title = models.CharField(max_length=128)
 	slug = models.SlugField()
-	parent = models.ForeignKey('self', related_name='children')
-	published = models.BooleanField(default=False)
+	parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
+	published = models.BooleanField(default=True)
 	show_in_menu = models.BooleanField(default=True)
 	page_type = models.CharField(max_length=4, choices=PAGE_CHOICES, default='norm')
 	template = models.FilePathField(path='./templates/easy_pages', match='.*\.html$', blank=True, default='')
@@ -104,7 +104,7 @@ class ContentBlock(models.Model):
 	page = models.ForeignKey('Page', related_name='content_blocks')
 	block_type = models.ForeignKey('ContentBlockType')
 	content_type = models.ForeignKey(ContentType, editable=False, null=True)
-	_html_content_cache = models.TextField(editable=False)
+	_html_content_cache = models.TextField(editable=False, default='')
 
 	def save(self):
 		if not self.content_type:
