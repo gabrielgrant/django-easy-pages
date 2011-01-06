@@ -8,6 +8,7 @@ setup(
     license='LGPL',
     long_description=open('README').read(),
     install_requires=[
+        'django-mptt',
         'django-inline-edit',
         'django-ckeditor',
         'django-ckeditor-filemodel-manager',
