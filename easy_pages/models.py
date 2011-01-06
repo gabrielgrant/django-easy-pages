@@ -118,12 +118,18 @@ class ContentBlock(models.Model):
 	def content_as_html(self):
 		if self._html_content_cache == '':
 			# cache is empty: get the subclass to generate the content
-			model = self.content_type.model_class()
-			if(model == ContentBlock):
-				raise RuntimeError('ContentBlock must be subclassed')
-			obj = model.objects.get(id=self.id)
+			obj = self.get_subclass_instance()
 			self._html_content_cache = obj.content_as_html()
 		return mark_safe(self._html_content_cache)
+	
+	def get_subclass(self):
+		model = self.content_type.model_class()
+		if(model == ContentBlock):
+			raise RuntimeError('ContentBlock must be subclassed')
+		return model
+	
+	def get_subclass_instance(self):
+		return self.get_subclass().objects.get(id=self.id)
 	
 	def __unicode__(self):
 		if self.title:
