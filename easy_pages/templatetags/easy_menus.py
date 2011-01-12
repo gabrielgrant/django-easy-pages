@@ -14,5 +14,5 @@ def main_menu(depth, page=None):
 	if type(page) is not Page and page is not None:
 		page = '/'.join(page.strip('/').split('/')[:depth+1])
 		page = Page.objects.from_path(page)
-	return {'page': page, 'roots': Page.tree.root_nodes(), 'depth':int(depth)}
+	return {'page': page, 'roots': Page.tree.all(), 'depth':int(depth)}
 
