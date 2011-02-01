@@ -30,6 +30,11 @@ class Page(MPTTModel):
 	title = models.CharField(max_length=128)
 	slug = models.SlugField()
 	parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
+	url_cache = models.CharField(
+		max_length=256,
+		blank=True,  # url for home is '/'; blank means no cached value
+		editable=False,
+	)
 	published = models.BooleanField(default=True)
 	show_in_menu = models.BooleanField(default=True)
 	page_type = models.CharField(max_length=4, choices=PAGE_CHOICES, default='norm')
@@ -57,12 +62,18 @@ class Page(MPTTModel):
 	class Meta:
 		unique_together = ('slug', 'parent')
 
-	def get_absolute_url(self):
-		u = '/'+'/'.join([i.slug for i in self.get_ancestors()] + [self.slug])
-		if not u.endswith('/') and settings.APPEND_SLASH:
-			return '%s/' % u
+	def get_absolute_url(self, read_cache=True, write_cache=True):
+		if read_cache and self.url_cache:
+			u = self.url_cache
 		else:
-			return u
+			ancestors = self.get_ancestors()
+			u = '/'+'/'.join([i.slug for i in ancestors] + [self.slug])
+			if not u.endswith('/') and settings.APPEND_SLASH:
+				u = '%s/' % u
+			if write_cache:
+				self.url_cache = u
+				self.save()
+		return u
 
 	@property
 	def blocks(self):
