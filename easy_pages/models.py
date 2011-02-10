@@ -187,7 +187,19 @@ class Image(models.Model):
 from html_field.db.models import HTMLField
 from html_field import html_cleaner
 
-default_cleaner = html_cleaner.HTMLCleaner(allow_tags=['h2', 'a', 'img', 'em', 'strong'])
+default_cleaner = html_cleaner.HTMLCleaner(
+	allow_tags=[
+		'h2',
+		'p',
+		'a',
+		'img',
+		'em',
+		'strong',
+		'ul',
+		'ol',
+		'li',
+		'br',
+	],)
 
 html_cleaner = getattr(settings, 'EASY_PAGES_HTML_CLEANER', default_cleaner)
 
