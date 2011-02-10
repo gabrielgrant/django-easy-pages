@@ -67,7 +67,9 @@ class Page(MPTTModel):
 			u = self.url_cache
 		else:
 			ancestors = self.get_ancestors()
-			u = '/'+'/'.join([i.slug for i in ancestors] + [self.slug])
+			u = '/'.join([i.slug for i in ancestors] + [self.slug])
+			if not u.startswith('/'):
+				u = '/' + u
 			if not u.endswith('/') and settings.APPEND_SLASH:
 				u = '%s/' % u
 			if write_cache:
