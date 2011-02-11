@@ -163,7 +163,8 @@ class ContentBlockType(models.Model):
 		return self.name
 
 def img_location(instance, filename):
-	return 'content_block_images/content_block_%d/%s'%(instance.content_block.id, basename(filename))
+	params = instance.content_block.id, os.path.basename(filename)
+	return 'content_block_images/content_block_%d/%s' % params
 
 class Image(models.Model):
 	content_block = models.ForeignKey('ContentBlock', related_name='images')
