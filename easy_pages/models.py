@@ -178,6 +178,10 @@ class Image(models.Model):
 			TextWatermarkFilter(field_name='credit')
 		]
 	)
+	def __unicode__(self):
+		if self.caption:
+			return '%s (%s)' % (self.caption, self.image.name)
+		return self.image.name
 
 
 ##
