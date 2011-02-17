@@ -16,13 +16,26 @@ class RawHTMLContentBlockInline(BaseContentBlockInline):
 
 class RestrictedHTMLContentBlockInline(BaseContentBlockInline):
 	model = RestrictedHTMLContentBlock
+	fieldsets = [
+		(None, {'fields':['title', 'content',]}),
+		('Advanced Options',
+			{'fields':['name', 'block_type'], 'classes':['collapse']}
+		),
+	]
 
 class PageAdmin(MPTTModelAdmin):
 	prepopulated_fields = {"slug": ("title",)}
 	fieldsets = [
-		(None, {'fields':['title', 'slug', 'page_type', 'parent', 'published', 'show_in_menu']}),
-		('Advanced Options', {'fields':['template'], 'classes':['collapse']}),
-		('Sitemap information', {'fields': ['changefreq','priority'], 'classes':['collapse']}),
+		(None, {'fields':['title']}),
+		('Advanced Options',
+			{'fields':[
+				'slug', 'page_type', 'parent',
+				'template', 'published', 'show_in_menu'
+			],
+			'classes':['collapse']
+		}),
+		('Sitemap information',
+		{'fields': ['changefreq','priority'], 'classes':['collapse']}),
 	]
 	inlines = [RestrictedHTMLContentBlockInline, RawHTMLContentBlockInline]
 

@@ -27,7 +27,7 @@ class Page(MPTTModel):
 	  ('cat', 'Category only (no link)'),  # content field is ignored
 	)
 	
-	title = models.CharField(max_length=128)
+	title = models.CharField('Page title', max_length=128)
 	slug = models.SlugField()
 	parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
 	url_cache = models.CharField(
@@ -114,7 +114,7 @@ class ContentBlock(models.Model):
 	but this isn't mandatory -- the content can be generated in any way
 	
 	"""
-	title = models.CharField(max_length=128, blank=True)
+	title = models.CharField('Block title', max_length=128, blank=True)
 	name = PythonIdentifierField()
 	page = models.ForeignKey('Page', related_name='content_blocks')
 	block_type = models.ForeignKey('ContentBlockType')
