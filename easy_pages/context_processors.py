@@ -5,4 +5,4 @@ def page(request):
 	try:
 		return {'page': Page.objects.from_path(request.path_info)}
 	except Page.DoesNotExist:
-		return {}
+		return {'page': None}
