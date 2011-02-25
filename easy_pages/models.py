@@ -39,7 +39,13 @@ class Page(MPTTModel):
 	show_in_menu = models.BooleanField(default=True)
 	page_type = models.CharField(max_length=4, choices=PAGE_CHOICES, default='norm')
 	template_dir = os.path.join(settings.PROJECT_ROOT, 'templates/easy_pages')
-	template = models.FilePathField(path=template_dir, match='.*\.html$', blank=True, default='')
+	template = models.FilePathField(
+		path=template_dir,
+		match='.*\.html$',
+		blank=True,
+		default='',
+		max_length=200,
+	)
 	# the following attributes are for sitemap integration:
 	
 	CHANGEFREQ_CHOICES = (
