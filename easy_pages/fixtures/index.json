@@ -1,0 +1,23 @@
+[
+    {
+        "pk": 1, 
+        "model": "easy_pages.page", 
+        "fields": {
+            "rght": 2, 
+            "level": 0, 
+            "parent": null, 
+            "title": "Home", 
+            "tree_id": 1, 
+            "show_in_menu": true, 
+            "priority": 0.5, 
+            "url_cache": "", 
+            "page_type": "link", 
+            "template": "", 
+            "published": true, 
+            "lft": 1, 
+            "lastmod": "2011-05-13 11:54:03", 
+            "changefreq": "", 
+            "slug": ""
+        }
+    },
+]
