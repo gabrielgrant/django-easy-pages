@@ -6,7 +6,7 @@ register = template.Library()
 @register.inclusion_tag('easy_pages/page_menu.html')
 def page_menu(page):
 	if page and not isinstance(page, Page):
-		page = Page.objects.from_path(page)
+		page = Page.objects.page_or_ancestor_from_path(page)
 	return {'page': page}
 
 @register.inclusion_tag('easy_pages/main_menu.html')

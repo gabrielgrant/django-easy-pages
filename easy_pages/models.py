@@ -14,9 +14,22 @@ from static_filtered_images.image_filters import  \
 
 class PageManager(models.Manager):
 	def from_path(self, path):
-		num_path_list = enumerate(reversed(path.strip('/').split('/')))
-		query = dict((('parent__'*i)+'slug', slug) for i, slug in num_path_list)
+		query = self.path2query(path)
 		return self.model.objects.get(**query)
+	def path2query(self, path):
+		num_path_list = enumerate(reversed(path.strip('/').split('/')))
+		return dict((('parent__'*i)+'slug', slug) for i, slug in num_path_list)
+	def page_or_ancestor_from_path(self, path):
+		split_path = path.strip('/').split('/')
+		for i in range(len(split_path)):
+			try:
+				page = self.from_path('/'.join(split_path[:len(split_path)-i]))
+				break
+			except Page.DoesNotExist:
+				pass
+		else:
+			raise Page.DoesNotExist('No pages found for ancestors of %s' % path)
+		return page
 
 class Page(MPTTModel):
 	objects = PageManager()
