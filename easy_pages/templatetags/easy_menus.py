@@ -15,7 +15,7 @@ def page_menu(page):
 @register.inclusion_tag('easy_pages/main_menu.html')
 def main_menu(depth, page=None):
 	if not isinstance(page, Page) and page is not None:
-		page = '/'.join(page.strip('/').split('/')[:depth+1])
+		page = '/'.join(page.rstrip('/').split('/')[:depth+1])
 		try:
 			page = Page.objects.from_path(page)
 		except Page.DoesNotExist:
