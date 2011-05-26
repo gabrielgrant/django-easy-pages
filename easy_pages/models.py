@@ -20,7 +20,7 @@ class PageManager(models.Manager):
 		num_path_list = enumerate(reversed(path.strip('/').split('/')))
 		return dict((('parent__'*i)+'slug', slug) for i, slug in num_path_list)
 	def page_or_ancestor_from_path(self, path):
-		split_path = path.strip('/').split('/')
+		split_path = path.rstrip('/').split('/')
 		for i in range(len(split_path)):
 			try:
 				page = self.from_path('/'.join(split_path[:len(split_path)-i]))
