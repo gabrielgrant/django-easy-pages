@@ -189,8 +189,8 @@ class Image(models.Model):
 	content_block = models.ForeignKey('ContentBlock', related_name='images')
 	credit = models.CharField(max_length=200, blank=True)
 	caption = models.TextField(blank=True)
-	image = models.ImageField(upload_to=img_location)
-	display_image = FilteredImageField(
+	image = models.ImageField(max_length=200, upload_to=img_location)
+	display_image = FilteredImageField(max_length=200,
 		src_field=image,
 		filter_chain=[
 			ResizeFilter(**settings.EASY_PAGE_IMAGE_RESIZE),
