@@ -1,6 +1,7 @@
 {% load mptt_tags %}
 {% with page.get_ancestors as ancestors %}
 {% recursetree roots %}
+    {% if node.published and node.show_in_menu %}
     <li{% if node in ancestors or node == page %} class="active"{% endif %}>
     <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
         {% if not node.is_leaf_node and node.level < depth %}
@@ -9,5 +10,6 @@
             </ul>
         {% endif %}
     </li>
+    {% endif %}
 {% endrecursetree %}
 {% endwith %}

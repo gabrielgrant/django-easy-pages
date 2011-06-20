@@ -2,6 +2,7 @@
 {% if page %}
 {% with page.get_ancestors as ancestors %}
 {% recursetree page.get_root.get_children %}
+    {% if node.published and node.show_in_menu %}
     {% if node in ancestors or node == page %}
     <li class="active">
     <a href="{{ node.get_absolute_url }}">{{ node.title }}</a>
@@ -13,6 +14,7 @@
     </li>
     {% else %}
     <li><a href="{{ node.get_absolute_url }}">{{ node.title }}</a></li>
+    {% endif %}
     {% endif %}
 {% endrecursetree %}
 {% endwith %}
