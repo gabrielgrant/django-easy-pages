@@ -2,6 +2,7 @@ from easy_pages.models import Page
 from django.template import loader, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.xheaders import populate_xheaders
+from django.http import Http404
 
 DEFAULT_TEMPLATE = 'easy_pages/default.html'
 def easy_page(request, page):
@@ -15,6 +16,8 @@ def easy_page(request, page):
 	    page
 	        `easy_pages.models.Page` object
 	"""
+	if not page.published:
+		raise Http404
 	if page.template:
 		#template_name = 'templates/'.join(page.template.split('templates/')[1:])
 		t = loader.select_template((page.template, DEFAULT_TEMPLATE))
