@@ -17,8 +17,12 @@ class PageManager(models.Manager):
 		query = self.path2query(path)
 		return self.model.objects.get(**query)
 	def path2query(self, path):
-		num_path_list = enumerate(reversed(path.strip('/').split('/')))
-		return dict((('parent__'*i)+'slug', slug) for i, slug in num_path_list)
+		path_parts = path.strip('/').split('/')
+		num_path_list = enumerate(reversed(path_parts))
+		q = dict((('parent__'*i)+'slug', slug) for i, slug in num_path_list)
+		top_parent_kwarg = ('parent__' * (len(path_parts)-1))+'parent'
+		q[top_parent_kwarg] = None
+		return q
 	def page_or_ancestor_from_path(self, path):
 		split_path = path.rstrip('/').split('/')
 		for i in range(len(split_path)):
