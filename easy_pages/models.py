@@ -110,7 +110,7 @@ class Page(MPTTModel):
 	@property
 	def content(self):
 		try:
-			return self.block.main.content
+			return self.block.main.content_as_html()
 		except ContentBlock.DoesNotExist:
 			return ''
 
