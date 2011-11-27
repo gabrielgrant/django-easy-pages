@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from django.conf import settings
+from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
 
@@ -89,15 +90,25 @@ class Page(MPTTModel):
 		if read_cache and self.url_cache:
 			u = self.url_cache
 		else:
-			ancestors = self.get_ancestors()
-			u = '/'.join([i.slug for i in ancestors] + [self.slug])
-			if not u.startswith('/'):
-				u = '/' + u
-			if not u.endswith('/') and settings.APPEND_SLASH:
-				u = '%s/' % u
+			if self.page_type == 'cat':
+				u = ''
+				# don't bother caching
+				write_cache = False
+			elif self.page_type == 'link':
+				u = strip_tags(self.content).strip()
+			else:  # page_type == 'norm'
+				u = self._generate_url()
 			if write_cache:
 				self.url_cache = u
 				self.save()
+		return u
+	def _generate_url(self):
+		ancestors = self.get_ancestors()
+		u = '/'.join([i.slug for i in ancestors] + [self.slug])
+		if not u.startswith('/'):
+			u = '/' + u
+		if not u.endswith('/') and settings.APPEND_SLASH:
+			u = '%s/' % u
 		return u
 
 	@property
