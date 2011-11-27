@@ -144,14 +144,14 @@ class ContentBlock(models.Model):
 	content_type = models.ForeignKey(ContentType, editable=False, null=True)
 	_html_content_cache = models.TextField(editable=False, default='')
 
-	def save(self):
+	def save(self, **kwargs):
 		if not self.content_type:
 			if self.__class__ is ContentBlock:
 				raise RuntimeError('ContentBlock must be subclassed')
 			self.content_type = ContentType.objects.get_for_model(self.__class__)
 		# clear cached HTML content
 		self._html_content_cache = ''
-		super(ContentBlock, self).save()
+		super(ContentBlock, self).save(**kwargs)
 
 	def content_as_html(self):
 		if self._html_content_cache == '':
