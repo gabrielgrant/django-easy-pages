@@ -87,6 +87,8 @@ class Page(MPTTModel):
 		unique_together = ('slug', 'parent')
 
 	def get_absolute_url(self, read_cache=True, write_cache=True):
+		if getattr(settings, 'SITE_READ_ONLY', False):
+		    write_cache = False
 		if read_cache and self.url_cache:
 			u = self.url_cache
 		else:
