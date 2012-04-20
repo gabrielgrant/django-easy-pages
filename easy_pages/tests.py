@@ -45,3 +45,15 @@ class PageGetAbsoluteURLTests(TestCase):
 		cb = RestrictedHTMLContentBlock.objects.create(
 			name='main', page=p, block_type=self.cbt, content='')
 		self.assertEqual(p.get_absolute_url(), '/norm/')
+
+
+class PageSlugValidationTests(TestCase):
+	def test_create_index_page(self):
+		p = Page.objects.create(title='homepage', slug='', page_type='norm')
+		p.clean()
+	def test_create_slugless_page_raises_validation_error(self):
+		parent = Page.objects.create(title='parent', slug='parent', page_type='norm')
+		child = Page.objects.create(title='homepage', slug='', page_type='norm', parent=parent)
+		from django.core.exceptions import ValidationError
+		with self.assertRaises(ValidationError):
+			child.clean()

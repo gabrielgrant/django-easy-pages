@@ -46,7 +46,7 @@ class Page(MPTTModel):
 	)
 	
 	title = models.CharField('Page title', max_length=128)
-	slug = models.SlugField()
+	slug = models.SlugField(blank=True)
 	parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
 	url_cache = models.CharField(
 		max_length=256,
@@ -85,6 +85,12 @@ class Page(MPTTModel):
 	
 	class Meta:
 		unique_together = ('slug', 'parent')
+
+	def clean(self):
+	    from django.core.exceptions import ValidationError
+	    # only allow a blank slug if there is no parent (ie for the homepage)
+	    if self.parent and not self.slug:
+	        raise ValidationError('Only top-level pages may have a blank slug.')
 
 	def get_absolute_url(self, read_cache=True, write_cache=True):
 		if getattr(settings, 'SITE_READ_ONLY', False):
