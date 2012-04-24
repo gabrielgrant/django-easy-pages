@@ -1,7 +1,7 @@
 {% load mptt_tags %}
 {% if page %}
 {% with page.get_ancestors as ancestors %}
-{% recursetree page.get_root.get_children %}
+{% recursetree page.get_root.get_descendants %}
     {% if node.published and node.show_in_menu %}
     {% if node in ancestors or node == page %}
     <li class="active">
