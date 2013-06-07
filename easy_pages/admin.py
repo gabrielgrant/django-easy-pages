@@ -38,6 +38,8 @@ class PageAdmin(MPTTModelAdmin):
 		{'fields': ['changefreq','priority'], 'classes':['collapse']}),
 	]
 	inlines = [RestrictedHTMLContentBlockInline, RawHTMLContentBlockInline]
+	save_on_top = True
+	search_fields = ['title', 'slug']
 
 admin.site.register(Page, PageAdmin)
 
