@@ -107,8 +107,9 @@ class Page(MPTTModel):
 			else:  # page_type == 'norm'
 				u = self._generate_url()
 			if write_cache:
-				self.url_cache = u
-				self.save()
+				if u != self.url_cache:
+					self.url_cache = u
+					self.save()
 		return u
 	def _generate_url(self):
 		ancestors = self.get_ancestors()
