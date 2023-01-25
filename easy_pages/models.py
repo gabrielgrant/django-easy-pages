@@ -271,4 +271,7 @@ class LinkedRestrictedHTMLContentBlock(ContentBlock):
 	content = HTMLField(no_links_html_cleaner, blank=True)
 	link = models.URLField(blank=True)
 	def content_as_html(self):
-		return self.content
+		if self.link:
+			return '<a href="%s">%s</a>' % (self.link, self.content)
+		else:
+			return self.content
