@@ -1,7 +1,11 @@
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from easy_pages.models import Page, Image, ContentBlock, ContentBlockType
-from easy_pages.models import RestrictedHTMLContentBlock, RawHTMLContentBlock, LinkedRestrictedHTMLContentBlock
+from easy_pages.models import RestrictedHTMLContentBlock, RawHTMLContentBlock, ContentBlockLink
+
+class ContentBlockLinkInline(admin.StackedInline):
+	model = ContentBlockLink
+	fields = ['url']
 
 class ContentBlockAdmin(admin.ModelAdmin):
 	prepopulated_fields = {"name": ("title",)}
@@ -22,15 +26,7 @@ class RestrictedHTMLContentBlockInline(BaseContentBlockInline):
 			{'fields':['name', 'block_type'], 'classes':['collapse']}
 		),
 	]
-
-class LinkedRestrictedHTMLContentBlockInline(BaseContentBlockInline):
-	model = LinkedRestrictedHTMLContentBlock
-	fieldsets = [
-		(None, {'fields':['title', 'content', 'link',]}),
-		('Advanced Options',
-			{'fields':['name', 'block_type'], 'classes':['collapse']}
-		),
-	]
+	inlines = [ContentBlockLinkInline]
 
 class PageAdmin(MPTTModelAdmin):
 	prepopulated_fields = {"slug": ("title",)}

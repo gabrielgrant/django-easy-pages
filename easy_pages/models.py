@@ -261,17 +261,9 @@ class RawHTMLContentBlock(ContentBlock):
 	def content_as_html(self):
 		return self.content
 
-# link blocks shouldn't contain links in their HTML content, so create an HTML cleaner that doesn't allow them
-# based on the default cleaner
-no_links_html_cleaner = html_cleaner.HTMLCleaner(
-	# list of allowed tags is the same as the html cleaner (except for 'a')
-	allow_tags=[t for t in html_cleaner.allow_tags if t != 'a'],
-)
-class LinkedRestrictedHTMLContentBlock(ContentBlock):
-	content = HTMLField(no_links_html_cleaner, blank=True)
-	link = models.URLField(blank=True)
-	def content_as_html(self):
-		if self.link:
-			return '<a href="%s">%s</a>' % (self.link, self.content)
-		else:
-			return self.content
+
+class ContentBlockLink(models.Model):
+    content_block = models.OneToOneField(ContentBlock, on_delete=models.CASCADE)
+    url = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
