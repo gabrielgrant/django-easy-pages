@@ -253,6 +253,7 @@ html_cleaner = getattr(settings, 'EASY_PAGES_HTML_CLEANER', default_cleaner)
 
 class RestrictedHTMLContentBlock(ContentBlock):
 	content = HTMLField(html_cleaner, blank=True)
+	link_url = models.URLField(blank=True)
 	def content_as_html(self):
 		return self.content
 	
@@ -260,10 +261,3 @@ class RawHTMLContentBlock(ContentBlock):
 	content = models.TextField(blank=True)
 	def content_as_html(self):
 		return self.content
-
-
-class ContentBlockLink(models.Model):
-    content_block = models.OneToOneField(ContentBlock, on_delete=models.CASCADE)
-    url = models.URLField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
